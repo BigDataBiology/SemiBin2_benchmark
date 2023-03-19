@@ -74,6 +74,29 @@ metadecoder seed --threads 50 -f input.fasta -o METADECODER.SEED
 metadecoder cluster -f input.fasta -c METADECODER.COVERAGE -s METADECODER.SEED -o METADECODER
 ```
 
+##### MetaBinner #####
+
+```bash
+use  gen_coverage_file.sh to generate mb2_master_depth.txt
+cat mb2_master_depth.txt | cut -f -1,4- > coverage_profile.tsv
+cat mb2_master_depth.txt | awk '{if ($2>1000) print $0 }' | cut -f -1,4- > coverage_profile_f1k.tsv
+
+python Filter_tooshort.py input.fasta 1000
+python gen_kmer.py input_1000.fa 1000 4
+bash run_metabinner.sh -a input_1000.fa -o output -d coverage_profile_f1k.tsv -k input_1000_kmer_4_f1000.csv -p MetaBinner-master -t 32
+```
+
+##### CONCOCT #####
+
+```bash
+cut_up_fasta.py input.fa -c 10000 -o 0 --merge_last -b contigs_10K.bed > contigs_10K.fa
+concoct_coverage_table.py contigs_10K.bed input.bam > coverage_table.tsv
+concoct --composition_file contigs_10K.fa --coverage_file coverage_table.tsv -b concoct_output
+merge_cutup_clustering.py concoct_output/clustering_gt1000.csv > concoct_output/clustering_merged.csv
+mkdir concoct_output/fasta_bins
+extract_fasta_bins.py input.fa concoct_output/clustering_merged.csv --output_path concoct_output/fasta_bins
+```
+
 #### Evaluation ####
 
 ##### Amber #####

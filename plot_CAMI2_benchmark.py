@@ -187,6 +187,42 @@ def plot_long_reads():
         plt.close()
         plt.show()
 
+def plot_long_reads_update():
+    for env in ['Skin','Oral','Airways','Gastrointestinal','Urogenital']:
+        print(env)
+        data = get_number_of_genomes_per_completeness(f'data/long_reads_update/amber_{env}', return_pandas=True)
+        print(data)
+        subset = data.loc[[
+            'CONCOCT',
+            'VAMB',
+            'Metadecoder',
+            'MetaBinner',
+            'SemiBin',
+            'Metabat2',
+            'SemiBin2']]
+        subset = subset[[90, 80, 70, 60]]
+        print(subset)
+        high_quality_list = subset[90].sort_values().values
+        print('Improvement of best binner over second best: {:.2%}'.format(
+            (high_quality_list[-1] - high_quality_list[-2]) / high_quality_list[-2]))
+        ax = subset.plot(kind="barh", stacked=True, legend=False,
+                         color=color_map)
+
+
+        ax.legend(['>90', '>80', '>70', '>60'],
+                  loc='lower right', fontsize=10, title='completeness')
+        # ax.set_xticks(ticks=y_label)
+        # ax.set_xticklabels(labels= fontsize=15, color='black')
+        plt.xticks(fontsize=15, color='black')
+        ax.set_yticklabels(labels=subset.index, fontsize=15, color='black')
+        ax.set_xlabel('Bins(< 5% contamination)', fontsize=15, color='black')
+        ax.set_title(f'{env}', fontsize=15, alpha=1.0)
+
+        plt.tight_layout()
+        plt.savefig(f'cami2_long_reads_{env}_update.pdf', dpi=300)
+        plt.close()
+        plt.show()
+
 def plot_long_reads_training_compare():
     result = {}
     for env in ['Skin','Oral','Airways','Gastrointestinal','Urogenital']:
@@ -222,3 +258,4 @@ if __name__ == '__main__':
     plot_long_reads_training_compare()
     plot_long_reads()
     plot_short_reads()
+    plot_long_reads_update()

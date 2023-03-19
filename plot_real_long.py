@@ -24,9 +24,9 @@ def plot():
         high_list = []
 
         if project == 'PRJCA007414':
-            method_list = ['LRBinner', 'Metabat2', 'VAMB', 'SemiBin', 'GraphMB', 'Metadecoder', 'SemiBin2_train']
+            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_train']
         else:
-            method_list = ['LRBinner', 'Metabat2', 'VAMB', 'SemiBin', 'GraphMB', 'Metadecoder', 'SemiBin2']
+            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_new_cannot']
         run_list = os.listdir(f'data/real_long/{project}')
         for method in method_list:
             num_near = 0
@@ -55,9 +55,9 @@ def plot_checkm():
         high_list = []
 
         if project == 'PRJCA007414':
-            method_list = ['LRBinner', 'Metabat2', 'VAMB', 'SemiBin', 'GraphMB', 'Metadecoder', 'SemiBin2_train']
+            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_new_cannot']
         else:
-            method_list = ['LRBinner', 'Metabat2', 'VAMB', 'SemiBin', 'GraphMB', 'Metadecoder', 'SemiBin2']
+            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_new_cannot']
         run_list = os.listdir(f'data/real_long/{project}')
         for method in method_list:
             num_near = 0
