@@ -124,19 +124,17 @@ def plot_bar_per_sample_com(dataset, diff_label = None, num_label = None):
     VAMB_multi = counts['VAMB'].values
     SemiBin_multi = counts['SemiBin'].values
     SemiBin2_multi = counts['SemiBin2'].values
-
+    print(len(VAMB_multi))
     print('SemiBin2_multi compared to VAMB_multi: {0}({1}) improvement'.format(np.sum(SemiBin2_multi) - np.sum(VAMB_multi), (np.sum(SemiBin2_multi) - np.sum(VAMB_multi))/ np.sum(VAMB_multi)))
     print('Compared to VAMB_multi wilcoxon:', wilcoxon(VAMB_multi, SemiBin2_multi))
 
     print('SemiBin2_multi compared to SemiBin_multi: {0}({1}) improvement'.format(np.sum(SemiBin2_multi) - np.sum(SemiBin_multi), (np.sum(SemiBin2_multi) - np.sum(SemiBin_multi))/ np.sum(SemiBin_multi)))
     print('Compared to VAMB_multi wilcoxon:', wilcoxon(SemiBin_multi, SemiBin2_multi))
 
-    # diff_single = counts_single.T - counts_single.SemiBin_pretrain
-    # diff_multi = counts_multi.T - counts_multi.SemiBin_multi
-
 
     diff_multi = counts_multi.SemiBin2 - counts_multi.T
     diff = diff_multi
+
     fig,axes = plt.subplots(1, 2, sharex='col',figsize = (9,1.5))
 
     val = diff.T

@@ -19,15 +19,16 @@ def get_result(result_path):
 
 def plot():
     for project in ['PRJCA007414','PRJNA595610', 'PRJEB48021']:
-
+        print(project)
         near_list = []
         high_list = []
 
         if project == 'PRJCA007414':
             method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_train']
         else:
-            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_new_cannot']
+            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2']
         run_list = os.listdir(f'data/real_long/{project}')
+        print(run_list)
         for method in method_list:
             num_near = 0
             num_high = 0
@@ -40,6 +41,11 @@ def plot():
             high_list.append(num_high)
         subset = pd.DataFrame(np.array([near_list,high_list]),columns = method_list, index=['Near-complete','High-quality'])
         print(subset)
+
+        near_complete_list = np.sort(subset.values[0])
+        high_quality_list = np.sort(subset.values[1])
+        print(f'Compared to the second best binner: near_complete: {(near_complete_list[-1] - near_complete_list[-2]) / near_complete_list[-2]}')
+        print(f'Compared to the second best binner: high_quality: {(high_quality_list[-1] - high_quality_list[-2]) / high_quality_list[-2]}')
 
         ax = subset.plot(kind='bar',color = ['#969696', '#dd3497','#c7eae5', '#7570b3', '#e6ab02', '#8c510a', '#1b9e77'], figsize=(6,3))
         ax.set_xticklabels(labels=['Near-complete','High-quality'], fontsize=15,color = 'black',rotation = 360)
@@ -55,9 +61,9 @@ def plot_checkm():
         high_list = []
 
         if project == 'PRJCA007414':
-            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_new_cannot']
+            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_train']
         else:
-            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2_new_cannot']
+            method_list = ['LRBinner', 'VAMB','GraphMB', 'SemiBin','Metabat2', 'Metadecoder', 'SemiBin2']
         run_list = os.listdir(f'data/real_long/{project}')
         for method in method_list:
             num_near = 0
@@ -112,5 +118,5 @@ def plot_pretrain():
 
 if __name__ == '__main__':
     plot_pretrain()
-    plot_checkm()
-    plot()
+    # plot_checkm()
+    # plot()

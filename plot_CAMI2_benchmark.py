@@ -191,7 +191,6 @@ def plot_long_reads_update():
     for env in ['Skin','Oral','Airways','Gastrointestinal','Urogenital']:
         print(env)
         data = get_number_of_genomes_per_completeness(f'data/long_reads_update/amber_{env}', return_pandas=True)
-        print(data)
         subset = data.loc[[
             'CONCOCT',
             'VAMB',
@@ -228,7 +227,6 @@ def plot_long_reads_training_compare():
     for env in ['Skin','Oral','Airways','Gastrointestinal','Urogenital']:
         print(env)
         data = get_number_of_genomes_per_completeness(f'data/long_reads/amber_{env}', return_pandas=True)
-        print(data)
         subset = data.loc[[
             'SemiBin2(MMseqs2)',
             'SemiBin2']]
@@ -256,6 +254,6 @@ def plot_long_reads_training_compare():
 
 if __name__ == '__main__':
     plot_long_reads_training_compare()
-    plot_long_reads()
-    plot_short_reads()
-    plot_long_reads_update()
+    # plot_long_reads()
+    # plot_short_reads()
+    # plot_long_reads_update()

@@ -53,7 +53,8 @@ def plot_long_reads():
         subset = data.loc[columns]
         subset = subset[[90]].values.tolist()
         subset = [value[0] for value in subset]
-        print('Improvements:', (subset[-1] - subset[0]) / subset[0])
+        subset_sorted = np.sort(subset)
+        print('Improvements:', (subset_sorted[-1] - subset_sorted[-2]) / subset_sorted[-2])
         improvements.append(subset)
     df = pd.DataFrame(improvements, index=['Airways','Gastrointestinal','Oral','Skin','Urogenital'], columns=[columns])
     print(df)
