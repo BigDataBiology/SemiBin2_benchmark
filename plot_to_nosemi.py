@@ -18,11 +18,7 @@ def plot_short_reads():
     species_improvement = []
     genus_improvement = []
 
-    strain_whole = []
-    species_whole = []
-    genus_whole = []
-
-    for env in ['Skin','Oral','Airways','Gastrointestinal','Urogenital']:
+    for env in ['Airways','Gastrointestinal','Oral','Skin','Urogenital']:
         print(env)
         data_index = None
         if env == 'Skin':
@@ -94,14 +90,11 @@ def plot_short_reads():
         print(strain_nosemi, species_nosemi, genus_nosemi)
 
         print('strain_improvement(NoSemi): ', (strain_SemiBin2 - strain_nosemi) / strain_nosemi)
-        strain_improvement.append((strain_SemiBin2 - strain_nosemi))
-        strain_whole.append(strain_nosemi)
+        strain_improvement.append((strain_SemiBin2 - strain_nosemi) / strain_nosemi)
         print('species_improvement(NoSemi): ', (species_SemiBin2 - species_nosemi) / species_nosemi)
-        species_improvement.append((species_SemiBin2 - species_nosemi))
-        species_whole.append(species_nosemi)
+        species_improvement.append((species_SemiBin2 - species_nosemi)/ species_nosemi)
         print('genus_improvement(NoSemi): ', (genus_SemiBin2 - genus_nosemi) / genus_nosemi)
-        genus_improvement.append((genus_SemiBin2 - genus_nosemi))
-        genus_whole.append(genus_nosemi)
+        genus_improvement.append((genus_SemiBin2 - genus_nosemi)/ genus_nosemi)
 
         line_width = 1
 
@@ -120,9 +113,9 @@ def plot_short_reads():
         plt.savefig(f'cami2_short_reads_{env}_nosemi.pdf', dpi=300, bbox_inches='tight')
         plt.close()
 
-    print('Average strain improvement:', np.sum(strain_improvement) / np.sum(strain_whole))
-    print('Average species improvement:', np.sum(species_improvement) / np.sum(species_whole))
-    print('Average genus improvement:', np.sum(genus_improvement)/np.sum(genus_whole))
+    print('Average strain improvement:', np.mean(strain_improvement))
+    print('Average species improvement:', np.mean(species_improvement))
+    print('Average genus improvement:', np.mean(genus_improvement))
 
 def get_number_of_genomes_per_completeness(amber_path, return_pandas=False):
     genome_path = os.path.join(amber_path, 'genome')
@@ -149,8 +142,7 @@ def get_number_of_genomes_per_completeness(amber_path, return_pandas=False):
 color_map = ['#01665e', '#5da8a1', '#80cdc1', '#c7eae5']
 def plot_long_reads():
     improvements = []
-    whole = []
-    for env in ['Skin','Oral','Airways','Gastrointestinal','Urogenital']:
+    for env in ['Airways','Gastrointestinal','Oral','Skin','Urogenital']:
         print(env)
         data = get_number_of_genomes_per_completeness(f'data/long_reads/amber_{env}', return_pandas=True)
 
@@ -161,11 +153,9 @@ def plot_long_reads():
         print(subset)
         high_quality_list = subset[90].sort_values().values
         print('Improvement of best binner over second best: {:.2%}'.format((high_quality_list[-1] - high_quality_list[-2]) / high_quality_list[-2]))
-        improvements.append((high_quality_list[-1] - high_quality_list[-2]))
-        whole.append(high_quality_list[-2])
+        improvements.append((high_quality_list[-1] - high_quality_list[-2])  / high_quality_list[-2] )
         ax = subset.plot(kind="barh", stacked=True, legend=False,
                          color=color_map)
-
 
         ax.legend(['>90', '>80', '>70', '>60'],
                   loc='lower right', fontsize=10, title='completeness')
@@ -180,7 +170,7 @@ def plot_long_reads():
         plt.savefig(f'cami2_long_reads_{env}_nosemi.pdf', dpi=300)
         plt.close()
         plt.show()
-    print('Average improvements:', np.sum(improvements) / np.sum(whole))
+    print('Average improvements:', np.mean(improvements))
 
 if __name__ == '__main__':
     # plot_short_reads()

@@ -18,11 +18,7 @@ def plot_short_reads():
     species_VAMB_list = []
     strain_VAMB_list = []
 
-    genus_whole = []
-    species_whole = []
-    strain_whole = []
-
-    for env in ['Skin','Oral','Airways','Gastrointestinal','Urogenital']:
+    for env in ['Airways','Gastrointestinal','Oral','Skin','Urogenital']:
         print(env)
 
         data_index = None
@@ -106,13 +102,9 @@ def plot_short_reads():
         print('species_improvement(SemiBin, VAMB): ', (species_SemiBin2 - species_SemiBin) / species_SemiBin, (species_SemiBin2 - species_VAMB) / species_VAMB)
         print('genus_improvement(SemiBin, VAMB): ', (genus_SemiBin2 - genus_SemiBin) / genus_SemiBin, (genus_SemiBin2 - genus_VAMB) / genus_VAMB)
 
-        genus_VAMB_list.append((genus_SemiBin2 - genus_VAMB))
-        species_VAMB_list.append((species_SemiBin2 - species_VAMB))
-        strain_VAMB_list.append((strain_SemiBin2 - strain_VAMB))
-
-        genus_whole.append(genus_VAMB)
-        species_whole.append(species_VAMB)
-        strain_whole.append(strain_VAMB)
+        genus_VAMB_list.append((genus_SemiBin2 - genus_VAMB) / genus_VAMB)
+        species_VAMB_list.append((species_SemiBin2 - species_VAMB) / species_VAMB)
+        strain_VAMB_list.append((strain_SemiBin2 - strain_VAMB) / strain_VAMB)
 
         line_width = 1
 
@@ -134,9 +126,9 @@ def plot_short_reads():
         plt.savefig(f'cami2_short_reads_{env}.pdf', dpi=300, bbox_inches='tight')
         plt.close()
 
-    print('VAMB genus average:', np.sum(genus_VAMB_list)/np.sum(genus_whole))
-    print('VAMB species average:', np.sum(species_VAMB_list)/np.sum(species_whole))
-    print('VAMB strain average:', np.sum(strain_VAMB_list)/np.sum(strain_whole))
+    print('VAMB genus average:', np.mean(genus_VAMB_list))
+    print('VAMB species average:', np.mean(species_VAMB_list))
+    print('VAMB strain average:', np.mean(strain_VAMB_list))
 
 def get_number_of_genomes_per_completeness(amber_path, return_pandas=False):
     genome_path = os.path.join(amber_path, 'genome')
